@@ -6,6 +6,7 @@ export interface DailyWork {
   chats?: number
   workingDay?: boolean
   timestamp?: string
+  taskName?: string
 }
 
 export interface UserInfo {

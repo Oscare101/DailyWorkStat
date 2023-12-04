@@ -14,6 +14,7 @@ import { updateDailyWork } from '../redux/dailyWork'
 import StatBlock from '../components/StatBlock'
 import DangeroudBlock from '../components/DangeroudBlock'
 import SwipeToDelete from '../components/SwipeToDelete'
+import Categories from '../components/Categories'
 
 export default function WorkingDayScreen({ route, navigation }: any) {
   const dailyWork = useSelector((state: RootState) => state.dailyWork)
@@ -59,6 +60,7 @@ export default function WorkingDayScreen({ route, navigation }: any) {
         {route.params.data.year}
       </Text>
       <StatBlock data={route.params.data} />
+      <Categories data={route.params.data} />
       <View style={{ flex: 1 }}></View>
 
       <SwipeToDelete

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../redux'
 import { DailyWork } from '../constants/interfaces'
 import { GetWeekDay } from '../constants/functions'
+import taskNames from '../constants/taskNames'
 
 const months = [
   'Січень',
@@ -65,6 +66,8 @@ export default function StatisticsScreen({ navigation }: any) {
   }
 
   function RenderMonthData({ item }: any) {
+    const monthData = item.data
+
     function RenderDaysData({ item }: any) {
       return (
         <View
@@ -84,6 +87,17 @@ export default function StatisticsScreen({ navigation }: any) {
           </Text>
           <Text>{item.tasks + item.chats}</Text>
         </View>
+      )
+    }
+
+    function RenderTasksNames({ item }: any) {
+      return (
+        <Text style={styles.monthTasksNamesTitle}>
+          {item}:{' '}
+          <Text style={styles.monthTasksNamesValue}>
+            {monthData.filter((d: DailyWork) => d.taskName === item).length}
+          </Text>
+        </Text>
       )
     }
 
@@ -142,6 +156,24 @@ export default function StatisticsScreen({ navigation }: any) {
             </Text>
           </Text>
         </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '92%',
+            borderTopColor: '#eee',
+            borderTopWidth: 1,
+            paddingTop: 5,
+            marginTop: 5,
+          }}
+        >
+          <FlatList
+            numColumns={3}
+            data={Object.values(taskNames)}
+            renderItem={RenderTasksNames}
+          />
+        </View>
 
         <FlatList
           style={{
@@ -151,7 +183,7 @@ export default function StatisticsScreen({ navigation }: any) {
             paddingBottom: 4,
             borderRadius: 5,
           }}
-          data={item.data}
+          data={item.data.sort((a: any, b: any) => b.timestamp - a.timestamp)}
           renderItem={RenderDaysData}
         />
       </View>
@@ -193,4 +225,6 @@ const styles = StyleSheet.create({
   },
   monthStatTitle: { fontSize: 16 },
   monthStatValue: { fontSize: 16, fontWeight: '500' },
+  monthTasksNamesTitle: { fontSize: 13, width: '33%', opacity: 0.8 },
+  monthTasksNamesValue: { fontSize: 14 },
 })
